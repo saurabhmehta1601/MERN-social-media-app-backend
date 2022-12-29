@@ -6,12 +6,12 @@ import morgan from "morgan";
 import helmet from "helmet";
 import path from "path";
 import bodyParser from "body-parser";
+import multer from "multer";
 
 // CONFIGURATIONS
 
 dotenv.config();
 
-const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -37,13 +37,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// CONNECT TO MONGODB THEN RUN EXPRESS APP
 
-
-
-
-
-
-
-app.listen(PORT, () => {
-  console.log(`>>> express app running at ${PORT}`);
-});
+const PORT = process.env.PORT || 8080;
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(">>> connected to mongodb");
+    app.listen(PORT, () => {
+      console.log(`>>> express app running at ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(">>> failed to connect to mongodb");
+    console.log(err);
+  });
