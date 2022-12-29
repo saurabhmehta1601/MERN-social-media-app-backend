@@ -9,6 +9,7 @@ import bodyParser from "body-parser";
 import multer from "multer";
 
 import register from "./src/controllers/auth/register.js";
+import login from "./src/controllers/auth/login.js";
 
 // CONFIGURATIONS
 
@@ -42,6 +43,10 @@ const upload = multer({ storage });
 // APP ROUTES WITH IMAGE UPLOADS
 
 app.post("/auth/register", upload.single("profilePicture"), register);
+
+// APP ROUTES
+
+app.post("/auth/login", login);
 
 // CONNECT TO MONGODB THEN RUN EXPRESS APP
 
