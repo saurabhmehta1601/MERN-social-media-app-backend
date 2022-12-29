@@ -8,6 +8,8 @@ import path from "path";
 import bodyParser from "body-parser";
 import multer from "multer";
 
+import register from "./src/controllers/auth/register.js";
+
 // CONFIGURATIONS
 
 dotenv.config();
@@ -25,7 +27,7 @@ app.use(
   express.static(path.join(process.cwd(), "public", "assets"))
 );
 
-// setup diskstorage for image uploads
+// SETUP DISKSTORAGE FOR IMAGE UPLOADS
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/assets");
@@ -36,6 +38,10 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+// APP ROUTES WITH IMAGE UPLOADS
+
+app.post("/auth/register", upload.single("profilePicture"), register);
 
 // CONNECT TO MONGODB THEN RUN EXPRESS APP
 
