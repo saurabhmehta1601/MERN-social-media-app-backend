@@ -9,11 +9,16 @@ import bodyParser from "body-parser";
 import multer from "multer";
 
 import { verifyToken } from "./src/middlewares/auth.js";
+
 import register from "./src/controllers/auth/register.js";
 import login from "./src/controllers/auth/login.js";
 import getUserById from "./src/controllers/user/getUserById.js";
 import getUserFriends from "./src/controllers/user/getUserFriends.js";
 import addRemoveFriend from "./src/controllers/user/addRemoveFriend.js";
+import createPost from "./src/controllers/post/createPost.js";
+import likeOrDislikePost from "./src/controllers/post/likeOrDislikePost.js";
+import getFeedPosts from "./src/controllers/post/getFeedPosts.js";
+import getUserPosts from "./src/controllers/post/getUserPosts.js";
 
 // CONFIGURATIONS
 
@@ -54,8 +59,18 @@ app.post("/auth/login", login);
 
 app.get("/user/:id", verifyToken, getUserById);
 app.get("/user/:id/friends", verifyToken, getUserFriends);
+app.get("/posts/feed", verifyToken, getFeedPosts);
+app.get("/posts/:userId", verifyToken, getUserPosts);
 
-app.patch("/user/:id/:friendId", verifyToken, addRemoveFriend);
+app.post("/posts/create", verifyToken, createPost);
+
+app.patch(
+  "/user/:id/addOrRemoveFriend/:friendId",
+  verifyToken,
+  addRemoveFriend
+);
+app.patch("/posts/:id/like", verifyToken, likeOrDislikePost);
+app.patch("/posts/:id/comment", verifyToken, likeOrDislikePost);
 
 // CONNECT TO MONGODB THEN RUN EXPRESS APP
 
