@@ -20,9 +20,6 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // delete all sensitive data  so wont get sent accidently
-    delete userInDB.passwordHash;
-
     const loggedUser = {
       firstName: userInDB.firstName,
       lastName: userInDB.lastName,
@@ -32,7 +29,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: userInDB._id }, process.env.JWT_SECRET, {});
     res
       .status(200)
-      .json({ message: "Login Successful", user: loggedUser, token });
+      .json({ message: "Login Successful", loggedInUser: userInDB, token });
   } catch (error) {
     console.log("Error logging in", error);
   }

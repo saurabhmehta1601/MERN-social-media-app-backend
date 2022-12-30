@@ -16,9 +16,6 @@ const register = async (req, res) => {
     } = req.body;
 
     const salt = await bcrypt.genSalt();
-    console.log("request body", req.body);
-    console.log("salt", salt);
-    console.log("password", password);
     const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
@@ -34,20 +31,15 @@ const register = async (req, res) => {
       impressions: Math.floor(Math.random() * 1000),
     });
 
-    const savedUser = await newUser.save();
-    const registeredUser = {
-      firstName: savedUser.firstName,
-      lastName: savedUser.lastName,
-      email: savedUser.email,
-    };
+    const registeredUser = await newUser.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "User created successfully",
-      createdUser: registeredUser,
+      registeredUser,
     });
   } catch (err) {
     console.log("Error adding new user to mongodb", err);
-    res.status(500).json({ message: err.message, createdUser: null });
+    return res.status(500).json({ message: err.message, registeredUser: null });
   }
 };
 

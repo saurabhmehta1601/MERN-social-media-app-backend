@@ -8,8 +8,12 @@ import path from "path";
 import bodyParser from "body-parser";
 import multer from "multer";
 
+import { verifyToken } from "./src/middlewares/auth.js";
 import register from "./src/controllers/auth/register.js";
 import login from "./src/controllers/auth/login.js";
+import getUserById from "./src/controllers/user/getUserById.js";
+import getUserFriends from "./src/controllers/user/getUserFriends.js";
+import addRemoveFriend from "./src/controllers/user/addRemoveFriend.js";
 
 // CONFIGURATIONS
 
@@ -47,6 +51,11 @@ app.post("/auth/register", upload.single("profilePicture"), register);
 // APP ROUTES
 
 app.post("/auth/login", login);
+
+app.get("/user/:id", verifyToken, getUserById);
+app.get("/user/:id/friends", verifyToken, getUserFriends);
+
+app.patch("/user/:id/:friendId", verifyToken, addRemoveFriend);
 
 // CONNECT TO MONGODB THEN RUN EXPRESS APP
 
