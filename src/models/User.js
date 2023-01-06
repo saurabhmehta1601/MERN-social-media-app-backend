@@ -6,13 +6,13 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 3,
-      max: 30,
+      max: 20,
     },
     lastName: {
       type: String,
       required: true,
       min: 3,
-      max: 30,
+      max: 20,
     },
     email: {
       type: String,
@@ -38,13 +38,13 @@ const UserSchema = new mongoose.Schema(
     location: {
       type: String,
       min: 3,
-      max: 75,
+      max: 20,
       default: "",
     },
     occupation: {
       type: String,
       min: 3,
-      max: 30,
+      max: 20,
       default: "",
     },
     profileViews: {
