@@ -1,9 +1,13 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User from "../../models/User.js";
 
 // Register a new user
 const register = async (req, res) => {
   try {
+    console.log("request body is ");
+    console.table(req.body);
+
     const {
       firstName,
       lastName,
@@ -31,15 +35,14 @@ const register = async (req, res) => {
       impressions: Math.floor(Math.random() * 1000),
     });
 
-    const registeredUser = await newUser.save();
+    const registeredUserInDB = await newUser.save();
+    const token = jwt.sign(registeredUserInDB.id, process.env.JWT_SECRET);
 
-    return res.status(201).json({
-      message: "User created successfully",
-      registeredUser,
-    });
+    return res.status(201).json({ token, user: registeredUserInDB });
   } catch (err) {
-    console.log("Error adding new user to mongodb", err);
-    return res.status(500).json({ message: err.message, registeredUser: null });
+    return res
+      .status(500)
+      .json({ code: err.code, message: err.message, user : null });
   }
 };
 
