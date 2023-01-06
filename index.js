@@ -32,15 +32,13 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use(
-  "/assets",
-  express.static(path.join(process.cwd(), "public", "assets"))
-);
+app.use(express.static(path.join(process.cwd(), "/public")));
+app.use("/uploads", express.static("uploads"));
 
 // SETUP DISKSTORAGE FOR IMAGE UPLOADS
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/assets");
+    cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);

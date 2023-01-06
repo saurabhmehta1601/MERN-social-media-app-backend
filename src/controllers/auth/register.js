@@ -7,13 +7,13 @@ const register = async (req, res) => {
   try {
     console.log("request body is ");
     console.table(req.body);
-
+    console.log("request files is ");
+    console.log(req.file);
     const {
       firstName,
       lastName,
       email,
       password,
-      profilePicture,
       friends,
       location,
       occupation,
@@ -27,7 +27,7 @@ const register = async (req, res) => {
       lastName,
       email,
       passwordHash,
-      profilePicture,
+      profilePicture: req.file.filename,
       friends,
       location,
       occupation,
@@ -42,7 +42,7 @@ const register = async (req, res) => {
   } catch (err) {
     return res
       .status(500)
-      .json({ code: err.code, message: err.message, user : null });
+      .json({ code: err.code, message: err.message, user: null });
   }
 };
 
