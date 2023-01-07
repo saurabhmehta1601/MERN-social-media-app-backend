@@ -2,24 +2,21 @@ import User from "../../models/User.js";
 
 const createPost = async (req, res) => {
   try {
-    const { userId, description, picturePath } = req.body;
+    const { title, description } = req.body;
     const userInDB = await User.findById(userId);
     const newPost = new Post({
-      userId,
-      firstName: userInDB.firstName,
-      lastName: userInDB.lastName,
-      location: userInDB.location,
+      title,
       description,
-      userPicture: userInDB.profilePicture,
-      picturePath,
+      postImage: req.file.filename,
+      authorId: userInDB.id,
+      authorName: userInDB.firstName + " " + userInDB.lastName,
+      authorProfilePicture: userInDB.profilePicture,
       likes: {},
       comments: [],
     });
 
     await newPost.save();
-    return res
-      .status(201)
-      .json({ message: "Post created successfully", newPost });
+    return res.status(201).json(newPost);
   } catch (error) {
     return res.status(409).json({ message: error.message });
   }

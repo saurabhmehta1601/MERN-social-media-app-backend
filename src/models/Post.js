@@ -2,21 +2,28 @@ import mongoose from "mongoose";
 
 const PostSchema = mongoose.Schema(
   {
-    userId: {
+    title: {
+      type: String,
+      min: 3,
+      max: 30,
+      required: true,
+    },
+    description: {
+      type: String,
+      min: 6,
+      max: 250,
+    },
+    authorId: {
       type: String,
       required: true,
     },
-    firstName: {
+    authorName: {
       type: String,
       required: true,
     },
-    lastName: {
-      type: String,
-      required: true,
-    },
-    location: String,
-    description: String,
-    picturePath: String,
+    authorProfilePicture: String,
+    postImage: String,
+
     likes: {
       type: Map, // MORE PERFORMANCE THAN ARRAY ( NOT HAVE TO SEARCH THROUGHT WHOLE ARRAY )
       of: Boolean,

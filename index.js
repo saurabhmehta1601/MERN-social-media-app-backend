@@ -50,6 +50,7 @@ const upload = multer({ storage });
 // APP ROUTES WITH IMAGE UPLOADS
 
 app.post("/auth/register", upload.single("profilePicture"), register);
+app.post("/posts/create", verifyToken, upload.single("postImage"), createPost);
 
 // APP ROUTES
 
@@ -59,8 +60,6 @@ app.get("/user/:id", verifyToken, getUserById);
 app.get("/user/:id/friends", verifyToken, getUserFriends);
 app.get("/posts/feed", verifyToken, getFeedPosts);
 app.get("/posts/:userId", verifyToken, getUserPosts);
-
-app.post("/posts/create", verifyToken, createPost);
 
 app.patch(
   "/user/:id/addOrRemoveFriend/:friendId",
