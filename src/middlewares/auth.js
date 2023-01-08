@@ -12,6 +12,6 @@ export const verifyToken = (req, res, next) => {
       next();
     });
   } else {
-    return res.sendStatus(401);
+    return res.sendStatus(401).json({ message: "Missing auth token" });
   }
 };

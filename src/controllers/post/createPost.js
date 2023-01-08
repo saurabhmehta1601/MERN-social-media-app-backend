@@ -1,9 +1,10 @@
 import User from "../../models/User.js";
+import Post from "../../models/Post.js";
 
 const createPost = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const userInDB = await User.findById(userId);
+    const userInDB = await User.findById(req.userId);
     const newPost = new Post({
       title,
       description,
