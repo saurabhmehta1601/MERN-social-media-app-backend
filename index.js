@@ -19,7 +19,7 @@ import createPost from "./src/controllers/post/createPost.js";
 import likeOrDislikePost from "./src/controllers/post/likeOrDislikePost.js";
 import getFeedPosts from "./src/controllers/post/getFeedPosts.js";
 import getUserPosts from "./src/controllers/post/getUserPosts.js";
-
+import getAllUsers from "./src/controllers/user/getAllUsers.js";
 // CONFIGURATIONS
 
 dotenv.config();
@@ -58,6 +58,7 @@ app.post("/auth/login", login);
 
 app.get("/user/:id", verifyToken, getUserById);
 app.get("/user/:id/friends", verifyToken, getUserFriends);
+app.get("/allusers", verifyToken, getAllUsers);
 app.get("/posts/feed", verifyToken, getFeedPosts);
 app.get("/posts/:userId", verifyToken, getUserPosts);
 
