@@ -5,19 +5,8 @@ import User from "../../models/User.js";
 // Register a new user
 const register = async (req, res) => {
   try {
-    console.log("request body is ");
-    console.table(req.body);
-    console.log("request files is ");
-    console.log(req.file);
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      friends,
-      location,
-      occupation,
-    } = req.body;
+    const { firstName, lastName, email, password, location, occupation } =
+      req.body;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -28,7 +17,7 @@ const register = async (req, res) => {
       email,
       passwordHash,
       profilePicture: req.file.filename,
-      friends,
+      following: new Map(),
       location,
       occupation,
       profileViews: Math.floor(Math.random() * 10000),

@@ -31,9 +31,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    friends: {
-      type: Array,
-      default: [],
+    following: {
+      type: Map,
+      required: Boolean,
     },
     location: {
       type: String,

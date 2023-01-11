@@ -20,6 +20,9 @@ import likeOrDislikePost from "./src/controllers/post/likeOrDislikePost.js";
 import getFeedPosts from "./src/controllers/post/getFeedPosts.js";
 import getUserPosts from "./src/controllers/post/getUserPosts.js";
 import getAllUsers from "./src/controllers/user/getAllUsers.js";
+import followUserById from "./src/controllers/user/followUserById.js";
+import unfollowUserById from "./src/controllers/user/unfollowUserById.js";
+
 // CONFIGURATIONS
 
 dotenv.config();
@@ -55,6 +58,8 @@ app.post("/posts/create", verifyToken, upload.single("postImage"), createPost);
 // APP ROUTES
 
 app.post("/auth/login", login);
+app.post("/follow", verifyToken, followUserById);
+app.post("/unfollow", verifyToken, unfollowUserById);
 
 app.get("/user/:id", verifyToken, getUserById);
 app.get("/user/:id/friends", verifyToken, getUserFriends);
@@ -67,7 +72,7 @@ app.patch(
   verifyToken,
   addRemoveFriend
 );
-app.patch("/posts/:id/like", verifyToken, likeOrDislikePost);
+app.patch("/posts/toggleIsLiked", verifyToken, likeOrDislikePost);
 app.patch("/posts/:id/comment", verifyToken, likeOrDislikePost);
 
 // CONNECT TO MONGODB THEN RUN EXPRESS APP
